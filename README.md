@@ -14,11 +14,17 @@
 `
 ###### ]
 
-###### in main urls
-`    path('social/', include('tfora_social_auth.urls')),
-`
-
 `python manage.py migrate
 `
 
-`from tfora_social_auth.views import (GoogleSocialAuthView,FacebookSocialAuthView)`
+###### in urls
+
+`from tfora_social_auth.views import (GoogleSocialAuthView,FacebookSocialAuthView)
+`
+###### urlpatterns = [
+`  path('google/', GoogleSocialAuthView.as_view()),
+`
+
+`path('facebook/', FacebookSocialAuthView.as_view()),
+`
+###### ]
