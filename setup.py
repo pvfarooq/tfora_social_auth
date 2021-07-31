@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 setup(
     name='tfora_social_auth',
     packages=['tfora_social_auth'], 
-    version='0.1',     
+    version='0.2',     
     license='MIT',
     description='Easy django rest auth integration for social applications (currently supports google and facebook)',
     long_description=long_description,
