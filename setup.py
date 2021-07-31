@@ -2,7 +2,7 @@ from distutils.core import setup
 import os
 
 with open("README.md", "r") as fh:
-    long_description = fh.read()
+    README = fh.read()
     
 setup(
     name='tfora_social_auth',
@@ -10,8 +10,8 @@ setup(
     version='0.2',     
     license='MIT',
     description='Easy django rest auth integration for social applications (currently supports google and facebook)',
-    long_description=long_description,
-    long_description_content_type='text/markdown',
+long_description_content_type='text/markdown', 
+    long_description=README,
     author='Ummer Farooq',                   
     author_email='farooq.tfora@gmail.com',      
     url='https://github.com/pvfarooq/tfora_social_auth',
