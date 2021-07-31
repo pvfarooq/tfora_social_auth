@@ -9,25 +9,36 @@
 
 `pip install tfora-social-auth`
 
-###### INSTALLED_APPS = [
+
+
+##### INSTALLED_APPS = [
+
 `  'tfora_social_auth'
 `
+
 ###### ]
+
+
 
 `python manage.py migrate
 `
 
-###### in urls
+
+
+##### in urls
 
 `from tfora_social_auth.views import (GoogleSocialAuthView,FacebookSocialAuthView)
 `
-###### urlpatterns = [
+##### urlpatterns = [
+
 `  path('google/', GoogleSocialAuthView.as_view()),
 `
 
 `path('facebook/', FacebookSocialAuthView.as_view()),
 `
-###### 
+##### ]
+
+
 
 ### For Google login
 `POST with "auth_token"
