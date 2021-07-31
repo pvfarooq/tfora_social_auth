@@ -15,7 +15,7 @@ setup(
     author='Ummer Farooq',                   
     author_email='farooq.tfora@gmail.com',      
     url='https://github.com/pvfarooq/tfora_social_auth',
-    download_url='https://github.com/pvfarooq/tfora_social_auth/archive/refs/tags/0.1.tar.gz',
+    download_url='https://github.com/pvfarooq/tfora_social_auth/archive/refs/tags/0.2.tar.gz',
     keywords=['django', 'social login', 'allauth', 'rest_auth','google login','facebook login'],
     install_requires=[            
         'facebook-sdk',
