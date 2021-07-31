@@ -49,5 +49,3 @@ Send an "idtoken" as from google to get user information
 Send an access token as from facebook to get user information`
 
 
-=======
->>>>>>> 24a068c4c7aa0a3913ebfdb1625e07a1100ade56
