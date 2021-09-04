@@ -43,9 +43,9 @@ class FacebookSocialAuthSerializer(serializers.Serializer):
         user_data = providers.Facebook.validate(auth_token)
 
         try:
-            user_id = user_data['id']
-            email = user_data['email']
-            name = user_data['name']
+            user_id = user_data.get('id')
+            email = user_data.get('email')
+            name = user_data.get('name')
             provider = 'facebook'
 
             return register_social_user(

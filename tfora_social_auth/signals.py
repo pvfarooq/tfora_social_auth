@@ -1,6 +1,7 @@
 from django.dispatch import Signal, receiver
 from .models import User, SocialAccount, SocialApplication
 user_registered = Signal()
+user_logged_in = Signal()
 
 
 @receiver(user_registered)

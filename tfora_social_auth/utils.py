@@ -1,8 +1,7 @@
-from .models import SocialApplication
 import random
-from .exceptions import CustomException
-from rest_framework_simplejwt.tokens import RefreshToken
 from . import signals
+from .models import SocialApplication
+from .exceptions import CustomException
 from . models import User, SocialAccount
 
 
@@ -43,45 +42,77 @@ def register_social_user(provider, user_id, email, name, provider_data):
         })
 
     filtered_user_by_email = User.objects.filter(email=email)
+
     if filtered_user_by_email.exists():
+
         social_account_user = get_user_social_account(
             filtered_user_by_email[0], provider)
+
         if provider == social_account_user.provider.provider:
-            refresh = RefreshToken.for_user(filtered_user_by_email[0])
+
+            signals.user_logged_in.send(
+                sender="social_user_login",
+                provider=provider,
+                user=filtered_user_by_email[0],
+                provider_data=provider_data
+            )
+
+            token = filtered_user_by_email[0].get_token()
+
             auth_data = {
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
+                'refresh': str(token),
+                'access': str(token.access_token),
             }
+
             data = {
                 "status": 200,
                 "auth": auth_data,
                 "message": "Logged in successfully"
             }
+
             return data
         else:
+
             raise CustomException({
                 'status': 403,
                 "message": 'Please continue your login using ' + social_account_user.provider.provider
             })
     else:
+
+        if provider == 'google':
+            first_name = provider_data['given_name']
+            last_name = provider_data['family_name']
+
+        elif provider == 'facebook':
+            first_name = provider_data['first_name']
+            last_name = provider_data['last_name']
+
         kwargs = {
             'username': generate_username(name),
             'email': email,
             "is_active": True,
+            "first_name": first_name,
+            "last_name": last_name
         }
+
         new_user = User.objects.create(**kwargs)
         new_user.set_unusable_password()
         new_user.save()
-        signals.user_registered.send(sender="social_user_register",
-                                     provider=provider,
-                                     user=new_user,
-                                     provider_data=provider_data)
 
-        refresh = RefreshToken.for_user(new_user)
+        signals.user_registered.send(
+            sender="social_user_register",
+            provider=provider,
+            user=new_user,
+            provider_data=provider_data
+        )
+
+        token = new_user.get_token()
+
         auth_data = {
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
+            'refresh': str(token),
+            'access': str(token.access_token)
         }
+
         data = {
             "status": 200,
             "auth": auth_data,
