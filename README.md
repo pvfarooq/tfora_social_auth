@@ -1,42 +1,65 @@
 # tfora_social_auth
 
-##### Easy django rest auth integration for social applications. (currently supports Google and Facebook)
-
-### Installation
-
-`pip install tfora-social-auth
-`
-###### INSTALLED_APPS = [
+Easy django rest auth integration for social applications. (currently supports Google and Facebook)
 
 
-`  'tfora_social_auth'
-`  
+## Quick Setup
 
-###### ]
+Install package
 
-`python manage.py migrate`
+	pip install tfora-social-auth
 
-###### in urls
 
-`from tfora_social_auth.views import (
-    GoogleSocialAuthView,
-    FacebookSocialAuthView
-)`
+Add  `tfora_social_auth` app to INSTALLED_APPS in your django settings.py:
 
-`path('social/google/', GoogleSocialAuthView.as_view()),
-`
+```python
+INSTALLED_APPS = [
+    ...
+    'rest_framework',
+    'tfora_social_auth',
+    ...
+]
+```
 
-`path('social/facebook/', FacebookSocialAuthView.as_view()),
-`
 
-### For Google login
+	python manage.py migrate
 
-###### POST with "auth_token".
 
-###### Send an "idtoken" as from google to get user information
+#### Add URL patterns
 
-### For Facebook login
+```python
+from tfora_social_auth.views import ( GoogleSocialAuthView, FacebookSocialAuthView )
 
-###### POST with "auth_token".
+urlpatterns = [
+    path('social/google/', GoogleSocialAuthView.as_view()),
+    path('social/facebook/', FacebookSocialAuthView.as_view()),
+]
 
-###### Send an access token as from facebook to get user information
+```
+
+
+##### For Google login
+- POST with "auth_token".
+- Send an "idtoken" as from google to get user information
+
+##### For Facebook login
+- POST with "auth_token".
+- Send an access token as from facebook to get user information
+
+##### Extra token payload
+You can add extra payload data to access token by the following method
+
+```python
+from rest_framework_simplejwt.tokens import RefreshToken
+
+class CustomUserModel(AbstractUser):
+    ...
+    @staticmethod
+    def get_token(user):
+        token = RefreshToken.for_user(user)
+        token["extra_key"] = "extra_value"
+        return token
+    ...
+
+		
+```
